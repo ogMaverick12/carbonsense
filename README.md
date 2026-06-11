@@ -1,244 +1,470 @@
-🌍 CarbonSense — Planetary Telemetry for Personal Climate Impact
 <div align="center">
 
-Transforming Personal Sustainability Into A Mission Control Experience
-Monitor. Analyze. Reconcile. Offset. Certify.
+<img width="100%" src="docs/assets/banner.png"/>
 
+# ◉ CARBONSENSE
 
+### PLANETARY RECONNAISSANCE & ENVIRONMENTAL TELEMETRY SYSTEM
 
+```diff
++ STATUS      : ONLINE
++ CLEARANCE   : LEVEL IV
++ EARTH STATE : CRITICAL
++ TELEMETRY   : ACTIVE
++ MISSION     : CARBON RECONCILIATION
+```
 
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=threedotjs"/>
+  <img src="https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer"/>
+</p>
+
+### _"Every decision leaves a trace. Every trace changes the atmosphere."_
 
 </div>
 
-🚀 Overview
-CarbonSense is not another sustainability dashboard.
-It reimagines environmental responsibility as a live planetary mission.
-Users become atmospheric operators navigating a futuristic command center where every decision affects a simulated Earth telemetry system. Carbon emissions, transportation habits, energy consumption, food choices, and offset actions are translated into immersive mission objectives, orbital analytics, and dynamic certification systems.
+---
 
-✨ Experience
-MISSION CONTROL × ENVIRONMENTAL INTELLIGENCE × SCI-FI CINEMATICS
-Instead of:
-❌ Forms
-❌ Boring charts
-❌ Generic dashboards
-CarbonSense delivers:
-✅ Real-time Earth visualization
-✅ Atmospheric telemetry systems
-✅ Carbon intelligence engines
-✅ Interactive mission progression
-✅ Dynamic climate certifications
-✅ NASA-inspired cockpit interfaces
+# 🛰 MISSION BRIEF
 
-🖼️ Visual Experience
-Planetary Intelligence Interface
+> **YEAR 2084**
 
+Atmospheric carbon concentrations have breached critical thresholds.
 
-🌎 Mission Control
-┌────────────────────────────────────┐│ LIVE ORBITAL TELEMETRY             │├────────────────────────────────────┤│ CO₂ Levels                         ││ Planetary Heat Metrics             ││ Atmospheric Diagnostics            ││ Environmental Risk Mapping         ││ Real-Time Sustainability Analysis  │└────────────────────────────────────┘
-The Earth acts as a living interface.
-Every sustainability decision dynamically impacts:
+Traditional sustainability platforms present spreadsheets, charts, and statistics.
 
+**CarbonSense transforms environmental responsibility into a planetary command simulation.**
 
-Carbon concentration
+Users become mission operators responsible for monitoring, reconciling, and reducing atmospheric carbon impact through an immersive NASA-inspired telemetry interface.
 
+Every decision affects Earth.
 
-Planetary health indicators
+Every action updates the mission.
 
+Every mission changes the future.
 
-Climate risk markers
+---
 
-
-Environmental milestones
-
-
-
-⚡ Core Features
-🛰 Atmospheric Intelligence
-Analyze global environmental indicators through a futuristic orbital monitoring system.
-Metrics
-
-
-Atmospheric CO₂
-
-
-Heat anomalies
-
-
-Cryosphere status
-
-
-Ocean energy accumulation
-
-
-Carbon sink efficiency
-
-
-Sustainability forecasts
-
-
-
-🎯 Reconciler Core
-Convert personal actions into measurable climate impact.
-Track
-Transportation:  - Cars  - EVs  - Public Transit  - AviationEnergy:  - Grid Usage  - Solar Systems  - LPG ConsumptionFood:  - Vegan  - Vegetarian  - Omnivore  - Livestock Impact
-
-📈 Mission Progression
-Environmental improvement becomes a progression system.
-Example Mission Chain
-PHASE 01Emission Equilibrium│├── Reduce carbon footprint├── Reach sustainability threshold└── Unlock next sectorPHASE 02Transport Optimization│├── Eliminate fossil transport└── Increase clean mobilityPHASE 03Nutritional Transition│├── Reduce livestock emissions└── Improve food sustainability
-
-📊 Planetary Diagnostics
-Monitor Earth through a live environmental command deck.
-Current Atmospheric ConditionsCO₂ Concentration      427.8 ppmHeat Anomaly           +1.28°CArctic Ice Coverage    4.12M km²Ocean Heat Content     +324 ZJ
-
-🌳 Carbon Offset Engine
-CarbonSense translates actions into real-world equivalencies.
-Examples:
-1 Tree:  21.8 kg CO₂/year1 kWh Saved:  1.6 kg CO₂ offsetTransport:  Dynamic Emission MultipliersEnergy:  Regional Grid Factors
-
-🏆 Certification Command
-Generate mission-grade climate certificates.
-Includes
-
-
-Personalized impact reports
-
-
-Carbon reduction metrics
-
-
-Environmental achievements
-
-
-4K export generation
-
-
-PDF certification exports
-
-
-Shareable mission credentials
-
-
-
-🧠 System Architecture
-                     ┌─────────────┐                     │    USER     │                     └──────┬──────┘                            │                            ▼              ┌──────────────────────────┐              │ Carbon Intelligence Core │              └──────────┬───────────────┘                         │         ┌───────────────┼────────────────┐         ▼               ▼                ▼   Telemetry       Mission Engine     Offset Engine         ▼               ▼                ▼     Planetary Visualization Layer                         ▼                 Certificate Engine
-
-🎨 Design Philosophy
-CarbonSense was inspired by:
-Mission Control Systems
-
-
-NASA Flight Operations
-
-
-Spacecraft telemetry consoles
-
-
-Orbital monitoring interfaces
-
-
-Science Fiction
-
-
-Interstellar
-
-
-The Expanse
-
-
-Tron Legacy
-
-
-Oblivion
-
-
-Mass Effect
-
-
-Data Visualization
-
-
-Bloomberg Terminals
-
-
-F1 Telemetry Dashboards
-
-
-Military Recon Systems
-
-
-
-🌌 UI Highlights
-Visual Systems
-
-
-Dynamic planetary rendering
-
-
-Orbital scan effects
-
-
-Atmospheric overlays
-
-
-Radar sweep animations
-
-
-Telemetry indicators
-
-
-Particle fields
-
-
-Glass cockpit interfaces
-
-
-Cinematic transitions
-
-
-Motion Systems
-
-
-Framer Motion
-
-
-Micro interactions
-
-
-Hover-reactive telemetry
-
-
-Live environmental feedback
-
-
-Mission status transitions
-
-
-
-🔥 Why CarbonSense?
-Most climate apps focus on guilt.
-CarbonSense focuses on agency.
-It transforms sustainability from a passive responsibility into an active mission.
-Every user becomes:
-Pilot↓Operator↓Environmental Commander↓Planetary Guardian
-
-📷 Screens
-Create a /docs/screenshots folder and add:
-dashboard.pnginsights.pngactions.pngprogress.pngcertificate.pngmethodology.png
-Then use:
-## Dashboard![Dashboard](docs/screenshots/dashboard.png)## Atmospheric Insights![Insights](docs/screenshots/insights.png)## Reconciler Core![Actions](docs/screenshots/actions.png)## Mission Progress![Progress](docs/screenshots/progress.png)## Certification Command![Certificate](docs/screenshots/certificate.png)## Methodology![Methodology](docs/screenshots/methodology.png)
-
-🛠 Tech Stack
-Frontend:  - React  - TypeScript  - TailwindCSSAnimation:  - Framer MotionVisualization:  - Three.js  - WebGL  - GLSL ShadersState:  - ZustandDeployment:  - Vercel  - Netlify
-
-🌍 Vision
-
-“What if environmental responsibility felt like piloting a spacecraft tasked with preserving Earth?”
-
-CarbonSense exists to answer that question.
+# 🌍 LIVE ORBITAL LINK ESTABLISHED
 
 <div align="center">
-🌎 CarbonSense
-Planetary Intelligence. Human Action.
-"Every decision leaves a trace. Every trace changes the atmosphere."
+
+![Mission Control](docs/screenshots/dashboard.png)
+
+</div>
+
+---
+
+# ✦ EXPERIENCE
+
+CarbonSense is designed as a fusion of:
+
+```text
+NASA MISSION CONTROL
+        ×
+PLANETARY INTELLIGENCE
+        ×
+AAA GAME UI
+        ×
+SCI-FI TELEMETRY
+        ×
+ENVIRONMENTAL ANALYTICS
+```
+
+Instead of displaying sustainability metrics...
+
+CarbonSense visualizes consequences.
+
+Instead of showing dashboards...
+
+CarbonSense builds worlds.
+
+---
+
+# 🎬 SYSTEM PREVIEW
+
+## Atmospheric Intelligence
+
+<div align="center">
+
+![Insights](docs/screenshots/insights.png)
+
+</div>
+
+### Live Monitoring
+
+- Atmospheric CO₂ Concentration
+- Global Temperature Anomalies
+- Cryosphere Stability
+- Ocean Heat Accumulation
+- Carbon Sink Efficiency
+- Environmental Forecast Models
+
+---
+
+## Reconciler Core
+
+<div align="center">
+
+![Actions](docs/screenshots/actions.png)
+
+</div>
+
+### Decision Engine
+
+Convert real-world behaviors into measurable environmental impact.
+
+```yaml
+Transportation:
+  - Gasoline Vehicles
+  - Electric Vehicles
+  - Public Transit
+  - Aviation
+
+Energy:
+  - Grid Consumption
+  - LPG Usage
+  - Solar Generation
+
+Nutrition:
+  - Omnivore
+  - Vegetarian
+  - Vegan
+  - Livestock Impact
+```
+
+---
+
+## Mission Progression
+
+<div align="center">
+
+![Progress](docs/screenshots/progress.png)
+
+</div>
+
+Environmental improvement becomes a mission campaign.
+
+```text
+SECTOR 01
+Emission Equilibrium
+│
+├─ Lower projected emissions
+├─ Reach sustainability threshold
+└─ Unlock next mission phase
+
+SECTOR 02
+Transport Optimization
+│
+├─ Reduce fossil transport
+└─ Increase clean mobility
+
+SECTOR 03
+Nutritional Transition
+│
+├─ Reduce livestock emissions
+└─ Improve sustainability score
+
+SECTOR 04
+Energy Independence
+│
+├─ Increase renewables
+└─ Stabilize carbon trajectory
+```
+
+---
+
+## Certification Command
+
+<div align="center">
+
+![Certificate](docs/screenshots/certificate.png)
+
+</div>
+
+Generate mission-grade environmental credentials.
+
+Features:
+
+- Dynamic Carbon Certificates
+- Environmental Achievement Tracking
+- PDF Export System
+- 4K Mission Posters
+- Shareable Sustainability Credentials
+
+---
+
+## Telemetry Methodology
+
+<div align="center">
+
+![Methodology](docs/screenshots/methodology.png)
+
+</div>
+
+CarbonSense operates using transparent environmental calculations.
+
+Includes:
+
+- Emission Multipliers
+- Regional Grid Factors
+- Offset Equivalencies
+- Carbon Baseline Models
+- Sustainability Coefficients
+
+---
+
+# ⚡ CORE SYSTEMS
+
+<table>
+<tr>
+<td width="50%">
+
+## 🛰 ORBITAL TELEMETRY
+
+Real-time planetary diagnostics and atmospheric intelligence.
+
+</td>
+
+<td width="50%">
+
+## 🌍 PLANETARY ANALYTICS
+
+Environmental monitoring powered by carbon intelligence.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+## ⚡ RECONCILER CORE
+
+Translate lifestyle behavior into measurable impact.
+
+</td>
+
+<td>
+
+## 🎯 MISSION ENGINE
+
+Progressive sustainability objectives and milestones.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+## 📊 IMPACT MODELING
+
+Carbon forecasting and reduction simulations.
+
+</td>
+
+<td>
+
+## 🏆 CERTIFICATION SYSTEM
+
+Generate verifiable mission credentials.
+
+</td>
+</tr>
+</table>
+
+---
+
+# 🧠 SYSTEM ARCHITECTURE
+
+```text
+┌───────────────────────────────┐
+│            USER               │
+└───────────────┬───────────────┘
+                │
+                ▼
+┌───────────────────────────────┐
+│      CARBON INTELLIGENCE      │
+└───────────────┬───────────────┘
+                │
+    ┌───────────┼───────────┐
+    │           │           │
+    ▼           ▼           ▼
+
+TRANSPORT    ENERGY      FOOD
+
+    │           │           │
+    └───────────┼───────────┘
+                │
+
+                ▼
+
+       RECONCILER ENGINE
+
+                │
+
+                ▼
+
+      PLANETARY TELEMETRY
+
+                │
+
+                ▼
+
+        MISSION CONTROL
+
+                │
+
+                ▼
+
+     CERTIFICATION ENGINE
+```
+
+---
+
+# 🌌 DESIGN LANGUAGE
+
+CarbonSense draws inspiration from:
+
+### Space Operations
+
+- NASA Mission Control
+- Deep Space Telemetry
+- Satellite Recon Systems
+- Orbital Tracking Networks
+
+### Science Fiction
+
+- Interstellar
+- The Expanse
+- Tron Legacy
+- Oblivion
+- Mass Effect
+
+### High Performance Data Systems
+
+- Formula 1 Telemetry
+- Bloomberg Terminal
+- Defense Recon Consoles
+- Aerospace Engineering Dashboards
+
+---
+
+# 🎨 VISUAL SYSTEM
+
+### Interface
+
+```text
+✓ Planetary Rendering
+✓ Atmospheric Effects
+✓ Orbital Scan Rings
+✓ Telemetry Layers
+✓ Mission HUD Elements
+✓ Dynamic Status Indicators
+✓ Glass Morphic Cockpits
+✓ Cinematic Data Visualization
+```
+
+### Motion
+
+```text
+✓ Framer Motion
+✓ Smooth Navigation
+✓ Orbital Transitions
+✓ Environmental Feedback
+✓ Contextual Animations
+✓ Immersive Interactions
+```
+
+---
+
+# 🛠 TECHNOLOGY
+
+```yaml
+Frontend:
+  - React
+  - TypeScript
+  - TailwindCSS
+
+Animation:
+  - Framer Motion
+
+Visualization:
+  - Three.js
+  - GLSL
+  - WebGL
+
+State Management:
+  - Zustand
+
+Deployment:
+  - Vercel
+  - Netlify
+```
+
+---
+
+# 🗺 ROADMAP
+
+### Sector Expansion Program
+
+```diff
++ Real NASA Climate APIs
++ Live Satellite Telemetry
++ AI Environmental Analyst
++ Carbon Forecast Engine
++ Multiplayer Climate Missions
++ Global Sustainability Rankings
++ Mobile Mission Companion
++ Advanced Planetary Simulation
+```
+
+---
+
+# 🚀 LOCAL DEPLOYMENT
+
+```bash
+git clone https://github.com/your-username/carbonsense.git
+
+cd carbonsense
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 📈 PROJECT PHILOSOPHY
+
+Most climate applications focus on reporting.
+
+CarbonSense focuses on understanding.
+
+Most dashboards present data.
+
+CarbonSense visualizes consequence.
+
+Most sustainability platforms feel administrative.
+
+CarbonSense feels operational.
+
+---
+
+<div align="center">
+
+# 🌍 CARBONSENSE
+
+### PLANETARY INTELLIGENCE PLATFORM
+
+```text
+MISSION STATUS : ACTIVE
+EARTH STATUS   : MONITORED
+SYSTEM STATE   : ONLINE
+```
+
+*"The atmosphere remembers every action."*
+
 </div>
