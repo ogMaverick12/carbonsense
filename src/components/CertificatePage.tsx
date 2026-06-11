@@ -1191,7 +1191,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
 
             <div className="flex items-center gap-3">
               <div className="text-right font-mono text-[6px] sm:text-[8px] text-zinc-500 hidden md:block" style={{ textTransform: 'uppercase' }}>
-                <span>Approved Decree: Verified by CarbonSense</span>
+                <span>Verification Status: CONFIRMED</span>
               </div>
               
               {/* Mini representation of QR matrix */}

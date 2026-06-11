@@ -596,7 +596,6 @@ export default function App() {
 
                   {/* EARTH VISUALIZER MODULE - Centered, Beautiful, completely unconstrained, 100% Width */}
                   <motion.div 
-                    layout 
                     variants={cockpitChildVariants}
                     className="w-full hidden md:flex flex-col items-center justify-center relative z-10 h-auto min-h-fit overflow-visible py-4"
                   >
@@ -719,7 +718,6 @@ export default function App() {
 
                   {/* RIGHT SIDE: THE MASSIVE INTERACTIVE EARTH VISUALIZER DOMINATING COMPOSITION */}
                   <motion.div 
-                    layout 
                     variants={cockpitChildVariants}
                     className="w-full hidden md:flex flex-col gap-8 relative z-10 min-h-0 md:sticky md:top-12 self-start order-1 md:order-2"
                   >
