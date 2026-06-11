@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider, 
   signOut, 
   onAuthStateChanged,
+  getAdditionalUserInfo,
   User as FirebaseUser
 } from "firebase/auth";
 import { 
@@ -37,6 +38,7 @@ export {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  getAdditionalUserInfo,
   doc,
   setDoc,
   getDoc,

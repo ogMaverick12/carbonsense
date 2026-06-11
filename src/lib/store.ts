@@ -403,11 +403,9 @@ export class CarbonStore {
         mergedProfile = { ...mergedProfile, ...onlineProfile, uid: this.user.uid };
         localStorage.setItem("cs_profile", JSON.stringify(mergedProfile));
       } else {
-        // New user — push local profile and fire onboarding event
+        // New user — push local profile to Firestore
         const newDisplayName = this.user.displayName || "Pilot";
         await setDoc(userDocRef, { ...mergedProfile, uid: this.user.uid, displayName: newDisplayName }, { merge: true });
-        // Signal App.tsx to show the callsign onboarding modal
-        window.dispatchEvent(new CustomEvent("new-user-onboarding", { detail: { suggestedName: newDisplayName } }));
       }
 
       // 2. Fetch or merge logged activities

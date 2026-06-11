@@ -18,6 +18,7 @@ import { Orbit, Compass, Cpu, AlertTriangle, ShieldCheck, User, Settings, Sparkl
 import { motion, AnimatePresence } from "motion/react";
 import { VerifiedCertificate } from "./components/VerifiedCertificate";
 import { OnboardingModal } from "./components/OnboardingModal";
+import { SignInPrompt } from "./components/SignInPrompt";
 
 // Lazy loaded heavy components for optimized Lighthouse scores
 const CertificatePage = React.lazy(() =>
@@ -205,6 +206,7 @@ export default function App() {
   const [verifiedId, setVerifiedId] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [onboardingSuggestedName, setOnboardingSuggestedName] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(() => carbonSenseStore.getIsLoggedIn());
 
   const [activeAchievement, setActiveAchievement] = useState<Achievement | null>(null);
   const [revealedIds, setRevealedIds] = useState<string[]>(() => {
@@ -260,23 +262,13 @@ export default function App() {
     }
   }, []);
 
-  // Track profile store registration
+  // Track profile store registration (auth state + name sync)
   useEffect(() => {
     const unsub = carbonSenseStore.registerStateListener(() => {
       setUserName(auth.currentUser?.displayName || carbonSenseStore.getUserName() || "Pilot");
+      setIsLoggedIn(carbonSenseStore.getIsLoggedIn());
     });
     return unsub;
-  }, []);
-
-  // Listen for new-user-onboarding event from store
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      setOnboardingSuggestedName(detail?.suggestedName || "");
-      setShowOnboarding(true);
-    };
-    window.addEventListener("new-user-onboarding", handler);
-    return () => window.removeEventListener("new-user-onboarding", handler);
   }, []);
 
   // Synchronize committedActionsCount in the store/Firestore whenever habits change
@@ -783,11 +775,15 @@ export default function App() {
         onClose={() => setActiveAchievement(null)}
       />
 
-      {/* Pilot profile management drawer drawer */}
+      {/* Pilot profile management drawer */}
       <PilotProfile
         isOpen={showProfile}
         onClose={() => setShowProfile(false)}
         carbonReduction={carbonReduction}
+        onNewUser={(googleName) => {
+          setOnboardingSuggestedName(googleName);
+          setShowOnboarding(true);
+        }}
       />
 
       {/* First-time callsign onboarding modal */}
@@ -800,6 +796,12 @@ export default function App() {
           setShowOnboarding(false);
         }}
         onSkip={() => setShowOnboarding(false)}
+      />
+
+      {/* Auto sign-in invite for guest users — appears 3s after load */}
+      <SignInPrompt
+        isLoggedIn={isLoggedIn}
+        onSignInClick={() => setShowProfile(true)}
       />
 
       {/* Exquisite 'Annual Carbon Hero' celebration popup overlay */}

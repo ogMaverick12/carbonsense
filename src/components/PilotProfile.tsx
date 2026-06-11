@@ -6,16 +6,17 @@ import {
 } from "../lib/store";
 import { User, LogIn, LogOut, Settings, ShieldCheck, Award, Flame, Zap, Check, HelpCircle, FlameKindling, Info } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { auth, googleProvider, signInWithPopup, signOut } from "../lib/firebase";
+import { auth, googleProvider, signInWithPopup, signOut, getAdditionalUserInfo } from "../lib/firebase";
 import { pilotProfileSchema } from "../schemas/validation";
 
 interface PilotProfileProps {
   isOpen: boolean;
   onClose: () => void;
   carbonReduction: number;
+  onNewUser?: (googleName: string) => void;
 }
 
-export function PilotProfile({ isOpen, onClose, carbonReduction }: PilotProfileProps) {
+export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: PilotProfileProps) {
   const [profile, setProfile] = useState(() => carbonSenseStore.getProfile());
   const [isLogged, setIsLogged] = useState(() => carbonSenseStore.getIsLoggedIn());
   const [badges, setBadges] = useState(() => carbonSenseStore.getBadges());
@@ -57,12 +58,17 @@ export function PilotProfile({ isOpen, onClose, carbonReduction }: PilotProfileP
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      // Audio cue
       playBeep(1200, 1600, 0.25);
-      await signInWithPopup(auth, googleProvider);
+      const credential = await signInWithPopup(auth, googleProvider);
+      // Reliably detect brand-new users via Firebase AdditionalUserInfo
+      const additionalInfo = getAdditionalUserInfo(credential);
+      if (additionalInfo?.isNewUser && onNewUser) {
+        const googleName = credential.user.displayName || "Pilot";
+        onNewUser(googleName);
+      }
     } catch (e) {
       console.error("Google Auth popup failed:", e);
-      alert("Google Login connection failed. Please ensure popups are disabled or reload current tab.");
+      alert("Google Login connection failed. Please ensure popups are not blocked or reload the tab.");
     } finally {
       setIsLoading(false);
     }
