@@ -1,0 +1,6 @@
+{
+  "name": "CarbonSense",
+  "description": "An interactive Mission Control for the planet Earth, tracking carbon footprint metrics and environmental telemetry to drive deliberate behavior change.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

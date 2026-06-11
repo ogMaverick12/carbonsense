@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Stores user sustainability profiles, geographic configurations, and carbon budget details.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier for the user." },
+        "displayName": { "type": "string", "description": "Human-readable display name of the candidate." },
+        "email": { "type": "string", "description": "E-mail address associated with the account." },
+        "location": { "type": "string", "description": "Regional tier city to determine grid emission coefficients." },
+        "commuteMode": { "type": "string", "description": "Primary vehicle type used for daily commute." },
+        "commuteDistance": { "type": "number", "description": "Average daily transit mileage in km." },
+        "diet": { "type": "string", "description": "Primary dietary baseline category." },
+        "dailyBudgetKg": { "type": "number", "description": "Target daily footprint budget in kilograms of CO2." },
+        "streakCount": { "type": "number", "description": "Number of consecutive active tracking days." },
+        "lastActiveDate": { "type": "string", "description": "ISO date string of last active tracking date." },
+        "totalDaysLogged": { "type": "number", "description": "Total number of unique days user logged activities." },
+        "committedActionsCount": { "type": "number", "description": "Number of actions committed from the Action Hub." },
+        "daysUnderBudget": { "type": "number", "description": "Number of days where daily carbon total is under 6.8 kg budget." },
+        "dailyCO2History": {
+          "type": "array",
+          "description": "Daily logged emission totals and dates.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string" },
+              "totalKg": { "type": "number" }
+            }
+          }
+        }
+      },
+      "required": ["uid", "displayName", "email", "location", "dailyBudgetKg"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Logs individual mass carbon discharges under Transport, Food, Energy, Shopping, and Waste scopes.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique activity ID." },
+        "userId": { "type": "string", "description": "Reference to the owner user's UID." },
+        "category": { "type": "string", "description": "Scope category: transport, food, energy, shopping, waste." },
+        "subcategory": { "type": "string", "description": "Specific action logged, matching India emission index keys." },
+        "quantity": { "type": "number", "description": "Total numeric dimension logged." },
+        "unit": { "type": "string", "description": "Dimension unit, e.g. km, kWh, kg, items." },
+        "co2Kg": { "type": "number", "description": "Total computed environmental output in kg CO2." },
+        "date": { "type": "string", "description": "ISO Date string associated with the log entry: YYYY-MM-DD." }
+      },
+      "required": ["id", "userId", "category", "subcategory", "quantity", "unit", "co2Kg", "date"]
+    },
+    "AIInsight": {
+      "title": "AIInsight",
+      "description": "AI-generated telemetry analysis explaining personal footprint trends, with specific action suggestions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique insight ID." },
+        "userId": { "type": "string", "description": "Reference to the owner user's UID." },
+        "generatedAt": { "type": "string", "description": "ISO timestamp when recommendations were compiled." },
+        "category": { "type": "string", "description": "Major highlighted impact category." },
+        "title": { "type": "string", "description": "Short headline of the insight." },
+        "body": { "type": "string", "description": "Actionable explanation text." },
+        "co2ImpactKg": { "type": "number", "description": "Estimated potential weekly carbon reduction in kg." },
+        "icon": { "type": "string", "description": "Emoji indicator fitting the advice." }
+      },
+      "required": ["id", "userId", "generatedAt", "title", "body"]
+    },
+    "Certificate": {
+      "title": "Certificate",
+      "description": "Global CarbonSense avoidance credential validation specifications.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique certificate ID matching index syntax." },
+        "userName": { "type": "string", "description": "Recipient name of the commendation." },
+        "carbonReduction": { "type": "number", "description": "Annual net carbon reduction in kg." },
+        "totalBaseline": { "type": "number", "description": "Total carbon baseline in kg." },
+        "issueDate": { "type": "string", "description": "ISO date string when the certificate was locked." },
+        "equivalentTrees": { "type": "number", "description": "Equivalent mature trees planted." },
+        "energyKwhSaved": { "type": "number", "description": "Clean electricity saved in kWh." },
+        "offsetPercent": { "type": "number", "description": "Efficiency baseline offset percentage." },
+        "verificationUrl": { "type": "string", "description": "URL endpoint for verification." }
+      },
+      "required": ["id", "userName", "carbonReduction", "totalBaseline", "issueDate"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Main user collection holding individual profiles."
+    },
+    "/users/{userId}/activities/{activityId}": {
+      "schema": "ActivityLog",
+      "description": "Activity discharge records of the candidate."
+    },
+    "/users/{userId}/insights/{insightId}": {
+      "schema": "AIInsight",
+      "description": "Historic AI feedback items compiled for the candidate."
+    },
+    "/certificates/{certificateId}": {
+      "schema": "Certificate",
+      "description": "Global certificates directory allowing public read-only validation lookups."
+    }
+  }
+}

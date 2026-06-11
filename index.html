@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Primary Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarbonSense — Personal Carbon Intelligence Platform</title>
+    <meta name="description" content="Know your footprint. Change your habits. Track your carbon emissions daily with AI-powered insights, personalized actions, and verified certificates." />
+    <meta name="theme-color" content="#040708" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Open Graph (LinkedIn/social sharing) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CarbonSense — Personal Carbon Intelligence Platform" />
+    <meta property="og:description" content="Mission control for your personal carbon footprint. Track, reduce, and earn verified certificates." />
+    <meta property="og:url" content="https://genai-adk-496713.web.app" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" href="/src/assets/images/healthy_earth_1781010556530.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://genai-adk-496713.web.app" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js")
+            .then((reg) => console.log("[CarbonSense PWA] Service worker registered on scope:", reg.scope))
+            .catch((err) => console.warn("[CarbonSense PWA] Registration rejected:", err));
+        });
+      }
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-telemetry-cyan: #00f0ff;
+  --color-telemetry-green: #39ff14;
+  --color-telemetry-amber: #ffaa00;
+  --color-telemetry-red: #ff3b30;
+}
+
+/* Custom glow effects and keyframes for NASA / F1 mission control details */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 120s linear infinite;
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 10px rgba(255, 59, 48, 0.5), 0 0 20px rgba(255, 59, 48, 0.2);
+}
+
+.text-stroke-white {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+}
+
+.text-stroke-cyan {
+  -webkit-text-stroke: 1.2px rgba(0, 240, 255, 0.95);
+}
+
+.text-stroke-green {
+  -webkit-text-stroke: 1.2px rgba(57, 255, 20, 0.95);
+}
+
+.border-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+/* Custom radial reveal effects */
+.mask-radial {
+  mask-image: radial-gradient(circle var(--radius, 150px) at var(--x, 50%) var(--y, 50%), black 0%, rgba(0,0,0,0.8) 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle var(--radius, 150px) at var(--x, 50%) var(--y, 50%), black 0%, rgba(0,0,0,0.8) 40%, transparent 100%);
+}
+
+.mask-sharp-circle {
+  mask-image: radial-gradient(circle var(--radius, 120px) at var(--x, 50%) var(--y, 50%), black 0%, black 80%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle var(--radius, 120px) at var(--x, 50%) var(--y, 50%), black 0%, black 80%, transparent 100%);
+}
+
+/* Custom scrollbars for telemetry feeds */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #a3e635;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
