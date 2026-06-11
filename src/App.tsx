@@ -17,6 +17,7 @@ import { auth } from "./lib/firebase";
 import { Orbit, Compass, Cpu, AlertTriangle, ShieldCheck, User, Settings, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { VerifiedCertificate } from "./components/VerifiedCertificate";
+import { OnboardingModal } from "./components/OnboardingModal";
 
 // Lazy loaded heavy components for optimized Lighthouse scores
 const CertificatePage = React.lazy(() =>
@@ -202,6 +203,8 @@ export default function App() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [userName, setUserName] = useState(() => auth.currentUser?.displayName || carbonSenseStore.getUserName() || "Pilot");
   const [verifiedId, setVerifiedId] = useState<string | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingSuggestedName, setOnboardingSuggestedName] = useState("");
 
   const [activeAchievement, setActiveAchievement] = useState<Achievement | null>(null);
   const [revealedIds, setRevealedIds] = useState<string[]>(() => {
@@ -263,6 +266,17 @@ export default function App() {
       setUserName(auth.currentUser?.displayName || carbonSenseStore.getUserName() || "Pilot");
     });
     return unsub;
+  }, []);
+
+  // Listen for new-user-onboarding event from store
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setOnboardingSuggestedName(detail?.suggestedName || "");
+      setShowOnboarding(true);
+    };
+    window.addEventListener("new-user-onboarding", handler);
+    return () => window.removeEventListener("new-user-onboarding", handler);
   }, []);
 
   // Synchronize committedActionsCount in the store/Firestore whenever habits change
@@ -774,6 +788,18 @@ export default function App() {
         isOpen={showProfile}
         onClose={() => setShowProfile(false)}
         carbonReduction={carbonReduction}
+      />
+
+      {/* First-time callsign onboarding modal */}
+      <OnboardingModal
+        isOpen={showOnboarding}
+        suggestedName={onboardingSuggestedName}
+        onConfirm={async (callsign) => {
+          await carbonSenseStore.updateProfile({ displayName: callsign });
+          setUserName(callsign);
+          setShowOnboarding(false);
+        }}
+        onSkip={() => setShowOnboarding(false)}
       />
 
       {/* Exquisite 'Annual Carbon Hero' celebration popup overlay */}
