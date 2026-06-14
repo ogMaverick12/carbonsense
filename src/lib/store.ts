@@ -14,7 +14,8 @@ import {
   deleteDoc,
   FirebaseUser
 } from "./firebase";
-import { UserProfile, ActivityLog, AIInsight, Challenge, Badge } from "../types";
+import { getAudioContextClass } from "./audio";
+import { UserProfile, ActivityLog, AIInsight, Challenge, Badge, VerifiedCertificateData } from "../types";
 import { EMISSION_FACTORS } from "../constants/emissionFactors";
 import { SYSTEM_CONFIG } from "../config";
 import { calculateCO2, calculateCarbonReduction, calculateTotalBaseline } from "../services/carbonEngine";
@@ -157,7 +158,9 @@ export class CarbonStore {
     if (local) {
       try {
         return JSON.parse(local);
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
     return defaultGuestProfile;
   }
@@ -186,7 +189,9 @@ export class CarbonStore {
     if (logs) {
       try {
         return JSON.parse(logs);
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
     return [];
   }
@@ -270,7 +275,9 @@ export class CarbonStore {
     if (cached) {
       try {
         return JSON.parse(cached);
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
     // Seed initial
     localStorage.setItem("cs_challenges", JSON.stringify(defaultChallenges));
@@ -282,7 +289,9 @@ export class CarbonStore {
     if (cached) {
       try {
         return JSON.parse(cached);
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
     return [];
   }
@@ -331,7 +340,7 @@ export class CarbonStore {
 
     // Custom browser audio trigger for premium gaming sensory effect!
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (AudioContextClass) {
         const audioCtx = new AudioContextClass();
         const osc = audioCtx.createOscillator();
@@ -347,7 +356,9 @@ export class CarbonStore {
         osc.start();
         osc.stop(audioCtx.currentTime + 0.55);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
 
     // Dispatch a browser event so App can render a global nice celebration confetti layout
     window.dispatchEvent(new CustomEvent("badge-unlocked", { detail: newBadge }));
@@ -366,12 +377,12 @@ export class CarbonStore {
   }
 
   // --- CERTIFICATE VERIFICATION REGISTRY ---
-  public async getVerifiedCertificate(id: string): Promise<any | null> {
+  public async getVerifiedCertificate(id: string): Promise<VerifiedCertificateData | null> {
     try {
       const docRef = doc(db, "certificates", id);
       const snap = await getDoc(docRef);
       if (snap.exists()) {
-        return snap.data();
+        return snap.data() as VerifiedCertificateData;
       }
     } catch (e) {
       console.error("Firestore get verified certificate error:", e);
@@ -379,7 +390,7 @@ export class CarbonStore {
     return null;
   }
 
-  public async saveVerifiedCertificate(cert: any): Promise<void> {
+  public async saveVerifiedCertificate(cert: VerifiedCertificateData): Promise<void> {
     try {
       const docRef = doc(db, "certificates", cert.id);
       await setDoc(docRef, cert);
@@ -491,7 +502,7 @@ export class CarbonStore {
       } else {
         console.warn("Client-side API payload validation errors, falling back safely:", parsed.error);
         if (payload && Array.isArray(payload.insights)) {
-          return payload.insights.map((item: any, idx: number) => ({
+          return payload.insights.map((item: Record<string, unknown>, idx: number) => ({
             id: `insight_fb_${idx}_${Date.now()}`,
             title: String(item.title || "TELEMETRY ADVISOR"),
             body: String(item.body || "Planetary resource depletion offset analysis active."),

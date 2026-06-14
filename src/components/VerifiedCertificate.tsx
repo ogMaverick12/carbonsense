@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { carbonSenseStore } from "../lib/store";
+import { VerifiedCertificateData } from "../types";
 import { ShieldCheck, Award, Calendar, Trees, Zap, RefreshCw, AlertTriangle, ArrowLeft } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -8,7 +9,7 @@ interface VerifiedCertificateProps {
 }
 
 export function VerifiedCertificate({ id }: VerifiedCertificateProps) {
-  const [cert, setCert] = useState<any | null>(null);
+  const [cert, setCert] = useState<VerifiedCertificateData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

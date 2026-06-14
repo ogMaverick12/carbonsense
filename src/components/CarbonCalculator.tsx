@@ -269,6 +269,7 @@ export function CarbonCalculator({
               <button
                 id="auth-total-system-audit-btn"
                 onClick={() => alert("MISSION SYSTEM AUDIT LOADED: Atmospheric carbon baseline compiled to Scope 1-3. Diagnostic report synced.")}
+                aria-label="Initiate restoration mission audit"
                 className="w-full sm:w-auto px-10 py-4 rounded-none font-mono text-[10px] tracking-[0.4em] font-bold uppercase transition-all duration-300 cursor-pointer text-center flex items-center justify-center gap-4 group relative overflow-hidden bg-transparent text-white border border-white/20 hover:border-white hover:bg-white hover:text-black"
                 style={{ minWidth: "260px" }}
               >
@@ -282,6 +283,7 @@ export function CarbonCalculator({
               <button
                 id="auth-total-system-audit-btn"
                 disabled
+                aria-label="Commit first override before starting restoration"
                 className="w-full sm:w-auto px-10 py-4 rounded-none font-mono text-[10px] tracking-[0.2em] font-bold uppercase transition-all duration-300 text-center flex items-center justify-center gap-4 bg-zinc-900/40 text-zinc-500 border border-zinc-805 cursor-not-allowed relative"
                 style={{ minWidth: "260px" }}
               >
@@ -521,6 +523,7 @@ export function CarbonCalculator({
             <button
               id="auth-total-system-audit-btn"
               onClick={() => alert("MISSION SYSTEM AUDIT LOADED: Atmospheric carbon baseline compiled to Scope 1-3. Diagnostic report synced.")}
+              aria-label="Initiate restoration mission audit"
               className="flex-1 max-w-sm py-4.5 rounded-none font-mono text-[10px] tracking-[0.4em] font-bold uppercase transition-all duration-300 cursor-pointer text-center flex items-center justify-center gap-4 group relative overflow-hidden bg-transparent text-white border border-white/20 hover:border-white hover:bg-white hover:text-black"
             >
               <span>Initiate Restoration</span>
@@ -533,6 +536,7 @@ export function CarbonCalculator({
             <button
               id="auth-total-system-audit-btn"
               disabled
+              aria-label="Commit first override before starting restoration"
               className="flex-1 max-w-sm py-4.5 rounded-none font-mono text-[10px] tracking-[0.2em] font-bold uppercase transition-all duration-300 text-center flex items-center justify-center gap-4 bg-zinc-900/40 text-zinc-500 border border-zinc-805 cursor-not-allowed relative"
             >
               <span className="uppercase" style={{ textTransform: 'uppercase' }}>Commit First Override Above</span>

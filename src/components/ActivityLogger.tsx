@@ -4,6 +4,7 @@ import {
   calculateCO2, 
   EMISSION_FACTORS 
 } from "../lib/store";
+import { getAudioContextClass } from "../lib/audio";
 import { Activity, Plus, Trash2, Zap, Car, Utensils, Lightbulb, ShoppingBag, Trash, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ActivityLog } from "../types";
@@ -28,8 +29,8 @@ export function ActivityLogger() {
     const unsub = () => {
       setLogs(carbonSenseStore.getActivities());
     };
-    carbonSenseStore.registerStateListener(unsub);
-    return () => carbonSenseStore.registerStateListener(() => {});
+    const unsubscribe = carbonSenseStore.registerStateListener(unsub);
+    return unsubscribe;
   }, []);
 
   // Sync subcategory selection default whenever parent category changes
@@ -90,7 +91,7 @@ export function ActivityLogger() {
 
   const playAudioPing = (f1: number, f2: number, dur: number) => {
     try {
-      const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtxClass = getAudioContextClass();
       if (AudioCtxClass) {
         const ctx = new AudioCtxClass();
         const osc = ctx.createOscillator();
@@ -104,7 +105,9 @@ export function ActivityLogger() {
         osc.start();
         osc.stop(ctx.currentTime + dur + 0.02);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   };
 
   const getSubcategoryName = (cat: string, sub: string) => {
@@ -211,7 +214,7 @@ export function ActivityLogger() {
                 }}
                 className="w-full bg-black border border-white/10 rounded px-2.5 py-2 text-white focus:border-[#ffaa00] focus:ring-1 focus:ring-[#ffaa00] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635] font-sans uppercase tracking-wider"
               >
-                {Object.keys((EMISSION_FACTORS as any)[category]).map((key) => (
+                {Object.keys(EMISSION_FACTORS[category]).map((key) => (
                   <option key={key} value={key}>
                     {getSubcategoryName(category, key)}
                   </option>
@@ -237,6 +240,7 @@ export function ActivityLogger() {
                   step="1"
                   value={quantity}
                   onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  aria-label="Activity quantity"
                   aria-invalid={!!validationError}
                   aria-describedby={validationError ? "err-activity-quantity" : undefined}
                   className="flex-1 accent-[#ffaa00] bg-zinc-900 cursor-ew-resize h-1"
@@ -248,7 +252,7 @@ export function ActivityLogger() {
                   min="1"
                   value={quantity}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  aria-label="Discharge item quantity input numeric value"
+                  aria-label="Activity quantity numeric value"
                   aria-invalid={!!validationError}
                   aria-describedby={validationError ? "err-activity-quantity" : undefined}
                   className="w-16 bg-black border border-white/10 rounded py-1 px-1.5 text-center font-mono text-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635] focus:border-[#ffaa00] focus:ring-1 focus:ring-[#ffaa00]"

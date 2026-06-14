@@ -4,6 +4,7 @@ import {
   PRESETS_BADGES, 
   EMISSION_FACTORS 
 } from "../lib/store";
+import { getAudioContextClass } from "../lib/audio";
 import { User, LogIn, LogOut, Settings, ShieldCheck, Award, Flame, Zap, Check, HelpCircle, FlameKindling, Info } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { auth, googleProvider, signInWithPopup, signOut, getAdditionalUserInfo } from "../lib/firebase";
@@ -129,7 +130,7 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
 
   const playBeep = (f1: number, f2: number, dur: number) => {
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx = getAudioContextClass();
       if (AudioCtx) {
         const ctx = new AudioCtx();
         const osc = ctx.createOscillator();
@@ -143,7 +144,9 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
         osc.start();
         osc.stop(ctx.currentTime + dur + 0.02);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   };
 
   const indianCities = [
@@ -206,7 +209,7 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
                     {auth.currentUser?.photoURL ? (
                       <img 
                         src={auth.currentUser.photoURL} 
-                        alt="Pilot Avatar" 
+                        alt={`${displayName || 'Pilot'} profile avatar`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -383,6 +386,7 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
                         type="text" 
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
+                        aria-label="Pilot callsign or display name"
                         aria-invalid={!!validationErrors.displayName}
                         aria-describedby={validationErrors.displayName ? "err-pilot-name" : undefined}
                         className={`w-full bg-black border rounded px-2.5 py-1.5 font-sans uppercase tracking-wider text-white focus:border-[#00f0ff] focus:ring-1 focus:ring-[#00f0ff] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635] ${
@@ -442,6 +446,7 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
                         step="2"
                         value={commuteDistance}
                         onChange={(e) => setCommuteDistance(parseInt(e.target.value))}
+                        aria-label="Commute distance in kilometers"
                         aria-invalid={!!validationErrors.commuteDistance}
                         aria-describedby={validationErrors.commuteDistance ? "err-pilot-distance" : undefined}
                         className="w-full accent-[#00f0ff] bg-zinc-900 cursor-ew-resize h-1 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635]"
@@ -483,6 +488,7 @@ export function PilotProfile({ isOpen, onClose, carbonReduction, onNewUser }: Pi
                         step="0.1"
                         value={dailyBudgetKg}
                         onChange={(e) => setDailyBudgetKg(parseFloat(e.target.value))}
+                        aria-label="Daily carbon budget in kg"
                         aria-invalid={!!validationErrors.dailyBudgetKg}
                         aria-describedby={validationErrors.dailyBudgetKg ? "err-pilot-budget" : undefined}
                         className="w-full accent-[#39ff14] bg-zinc-900 cursor-ew-resize h-1 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635]"

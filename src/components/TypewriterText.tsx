@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import type { Easing } from "motion/react";
+import { getAudioContextClass } from "../lib/audio";
 
 interface TypewriterTextProps {
   text: string;
@@ -56,7 +58,7 @@ export function TypewriterText({
       // Play soft tactile mechanical keyboard typing sounds occasionally
       if (currentIndex % 2 === 0) {
         try {
-          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+          const AudioContextClass = getAudioContextClass();
           if (AudioContextClass) {
             const ctx = new AudioContextClass();
             const osc = ctx.createOscillator();
@@ -74,7 +76,9 @@ export function TypewriterText({
             osc.start();
             osc.stop(ctx.currentTime + 0.03);
           }
-        } catch (_) {}
+        } catch (_) {
+          // intentional: audio/storage failures are non-fatal; swallowing here is correct
+        }
       }
     }, speed);
 
@@ -87,7 +91,7 @@ export function TypewriterText({
       {showCursor && currentIndex < text.length && (
         <motion.span
           animate={{ opacity: [1, 0] }}
-          transition={{ repeat: Infinity, duration: 0.6, ease: "steps(2)" }}
+          transition={{ repeat: Infinity, duration: 0.6, ease: "steps(2)" as Easing }}
           style={{ backgroundColor: cursorColor }}
           className="inline-block w-[6px] h-[11px] ml-0.5 align-middle shadow-[0_0_6px_var(--cursor-color)]"
         />

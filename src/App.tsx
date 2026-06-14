@@ -19,6 +19,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { VerifiedCertificate } from "./components/VerifiedCertificate";
 import { OnboardingModal } from "./components/OnboardingModal";
 import { SignInPrompt } from "./components/SignInPrompt";
+import { getAudioContextClass } from "./lib/audio";
 
 // Lazy loaded heavy components for optimized Lighthouse scores
 const CertificatePage = React.lazy(() =>
@@ -92,7 +93,7 @@ const mainChildVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   },
 };
@@ -104,7 +105,7 @@ const cockpitSplitVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
       staggerChildren: 0.15,
       delayChildren: 0.1,
     },
@@ -118,7 +119,7 @@ const cockpitChildVariants = {
     y: 0,
     transition: {
       duration: 0.55,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   },
 };
@@ -378,12 +379,16 @@ export default function App() {
       setHasClearedHeroMilestone(true);
       try {
         localStorage.setItem("cs-hero-milestone-unlocked", "true");
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     } else if (carbonReduction < 3500 && hasClearedHeroMilestone) {
       setHasClearedHeroMilestone(false);
       try {
         localStorage.removeItem("cs-hero-milestone-unlocked");
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
   }, [carbonReduction, hasClearedHeroMilestone]);
 
@@ -440,7 +445,7 @@ export default function App() {
           onClick={() => {
             setShowProfile(true);
             try {
-              const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+              const AudioCtx = getAudioContextClass();
               if (AudioCtx) {
                 const ctx = new AudioCtx();
                 const osc = ctx.createOscillator();
@@ -453,7 +458,9 @@ export default function App() {
                 osc.start();
                 osc.stop(ctx.currentTime + 0.13);
               }
-            } catch (_) {}
+            } catch (_) {
+              // intentional: audio/storage failures are non-fatal; swallowing here is correct
+            }
           }}
           aria-label="View Pilot Profile and Settings"
           className="pointer-events-auto bg-black/60 backdrop-blur-md border border-[#00f0ff]/10 hover:border-[#00f0ff]/40 px-4 py-2 rounded-full flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white hover:text-[#00f0ff] cursor-pointer shadow-lg transition-all duration-300 ml-auto group border-glow font-medium"

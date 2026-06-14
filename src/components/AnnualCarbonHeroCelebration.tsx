@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Award, Sparkles, ShieldCheck, Check, Star, Zap, Flame } from "lucide-react";
 import confetti from "canvas-confetti";
+import { getAudioContextClass } from "../lib/audio";
 
 interface AnnualCarbonHeroProps {
   isOpen: boolean;
@@ -42,11 +43,13 @@ export function AnnualCarbonHeroCelebration({ isOpen, onClose, carbonReductionKg
           }
         };
         frame();
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
 
       // 2. Synthesize majestic futuristic cockpit triumph fanfare chord sequence
       try {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass = getAudioContextClass();
         if (AudioContextClass) {
           const ctx = new AudioContextClass();
           const playNote = (freq: number, start: number, duration: number, type: OscillatorType = "sine") => {
@@ -75,7 +78,9 @@ export function AnnualCarbonHeroCelebration({ isOpen, onClose, carbonReductionKg
           playNote(659.25, 0.6, 1.0, "triangle"); // E5 extra harmonic shimmer
           playNote(783.99, 0.75, 0.82, "sine");   // G5 high crown sweep
         }
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     } else {
       setShowContent(false);
     }

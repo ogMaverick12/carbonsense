@@ -10,9 +10,9 @@ export function calculateCO2(
   subcategory: string,
   quantity: number
 ): number {
-  const factors = (EMISSION_FACTORS as any)[category];
+  const factors = EMISSION_FACTORS[category] as Record<string, number> | undefined;
   if (!factors) return 0;
-  const multiplier = factors[subcategory] || 0;
+  const multiplier = factors[subcategory] ?? 0;
   return Number((quantity * multiplier).toFixed(3));
 }
 

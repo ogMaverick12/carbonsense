@@ -34,7 +34,9 @@ export function SignInPrompt({ isLoggedIn, onSignInClick }: SignInPromptProps) {
     setDismissed(true);
     try {
       localStorage.setItem("cs-signin-prompt-dismissed", "true");
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   };
 
   const handleSignIn = () => {

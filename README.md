@@ -27,7 +27,7 @@
 ## 🪐 Key Features
 
 *   🌍 **Dynamic Earth Biome**: Watch the planet transform in real-time. As your carbon emissions rise, the Earth shifts from a vibrant, healthy green biome into a smog-choked, dark industrial wasteland.
-*   ⚡ **AI Carbon Diagnostics (Gemini 1.5 Flash)**: Connects with the **Google Gemini API** to analyze your emission metrics and output tailored action plans, complete with step-by-step reduction directives.
+*   ⚡ **AI Carbon Diagnostics (Gemini 2.5 Flash)**: Connects with the **Google Gemini API** to analyze your emission metrics and output tailored action plans, complete with step-by-step reduction directives.
 *   📊 **Fleet Telemetry (Activity Logger)**: Add daily commutes, flight duration, diet types (vegan, carnivore, etc.), and appliance usage. Check your historical charts and delete activities to log new values.
 *   🏆 **Global Fleet Leaderboard**: Authenticate via Google Sign-In to sync your data. Compete against other carbon pilots worldwide in real-time.
 *   🚀 **Pilot Callsign Onboarding**: Personalized onboarding popup prompts new pilots on their first login to establish their callsign (skippable).

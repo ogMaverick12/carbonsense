@@ -111,3 +111,19 @@ export interface CertificateEligibility {
 }
 
 
+
+/**
+ * Shape of a verified, shareable certificate record as stored in
+ * Firestore (collection: "certificates") and rendered by VerifiedCertificate.
+ */
+export interface VerifiedCertificateData {
+  id: string;
+  userName: string;
+  carbonReduction: number; // kg CO2e offset
+  totalBaseline: number;   // kg CO2e baseline this offset is measured against
+  issueDate: string;       // ISO date (YYYY-MM-DD)
+  equivalentTrees: number;
+  energyKwhSaved: number;
+  offsetPercent: number;
+  verificationUrl: string;
+}

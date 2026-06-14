@@ -1,6 +1,7 @@
 import React from "react";
 import { Orbit, Compass, Activity, ShieldAlert, Sparkles, AlertCircle, Award, BookOpen } from "lucide-react";
 import { motion } from "motion/react";
+import { getAudioContextClass } from "../lib/audio";
 
 interface CommandDockProps {
   activeTab: string;
@@ -24,7 +25,7 @@ export function CommandDock({ activeTab, onTabChange, carbonReduction, totalBase
   // Web Audio cockpit tactile response sounds
   const playTabClickSound = () => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (!AudioContextClass) return;
       const ctx = new AudioContextClass();
       const osc = ctx.createOscillator();
@@ -42,12 +43,14 @@ export function CommandDock({ activeTab, onTabChange, carbonReduction, totalBase
       
       osc.start();
       osc.stop(ctx.currentTime + 0.15);
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   };
 
   const playHoverTick = () => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (!AudioContextClass) return;
       const ctx = new AudioContextClass();
       const osc = ctx.createOscillator();
@@ -64,7 +67,9 @@ export function CommandDock({ activeTab, onTabChange, carbonReduction, totalBase
       
       osc.start();
       osc.stop(ctx.currentTime + 0.03);
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   };
 
   return (

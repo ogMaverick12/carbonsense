@@ -8,6 +8,7 @@ import { checkCertificateEligibility } from "../services/certificateEngine";
 import { UserActivityData, CertificateEligibility } from "../types";
 import { AnnualCarbonHeroCelebration } from "./AnnualCarbonHeroCelebration";
 import healthyEarth from "../assets/images/healthy_earth_1781010556530.png";
+import { getAudioContextClass } from "../lib/audio";
 
 interface CertificatePageProps {
   carbonReduction: number;
@@ -528,7 +529,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
     
     // Play sound effects
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (AudioContextClass) {
         const audioCtx = new AudioContextClass();
         const osc = audioCtx.createOscillator();
@@ -542,7 +543,9 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
         osc.start();
         osc.stop(audioCtx.currentTime + 0.38);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
 
     setTimeout(async () => {
       try {
@@ -566,7 +569,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
     setIsGenerating(true);
     
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (AudioContextClass) {
         const audioCtx = new AudioContextClass();
         const osc = audioCtx.createOscillator();
@@ -580,7 +583,9 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
         osc.start();
         osc.stop(audioCtx.currentTime + 0.32);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
 
     setTimeout(async () => {
       try {
@@ -617,7 +622,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
                 </style>
               </head>
               <body>
-                <img src="${pngDataUri}" onload="window.print(); window.close();" />
+                <img src="${pngDataUri}" alt="CarbonSense verified certificate for printing" onload="window.print(); window.close();" />
               </body>
             </html>
           `);
@@ -635,7 +640,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
     setHasCopiedLink(true);
     try {
       navigator.clipboard.writeText(window.location.href);
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (AudioContextClass) {
         const audioCtx = new AudioContextClass();
         const osc = audioCtx.createOscillator();
@@ -648,7 +653,9 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
         osc.start();
         osc.stop(audioCtx.currentTime + 0.12);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
     setTimeout(() => {
       setHasCopiedLink(false);
     }, 2000);
@@ -666,7 +673,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
     const uniqueDates = Array.from(new Set(activities.map(a => a.date)));
     let daysDiff = 1;
     if (uniqueDates.length > 1) {
-      const dates = uniqueDates.map(d => new Date(d as any).getTime());
+      const dates = uniqueDates.map(d => new Date(d).getTime());
       const minDate = Math.min(...dates);
       const maxDate = Math.max(...dates);
       daysDiff = Math.max(1, Math.round((maxDate - minDate) / (1000 * 60 * 60 * 24)));
@@ -992,6 +999,7 @@ export function CertificatePage({ carbonReduction, totalBaseline, onNavigateToTa
               type="text"
               value={userName}
               onChange={(e) => handleNameChange(e.target.value)}
+              aria-label="Certificate recipient name"
               aria-invalid={!!nameError}
               aria-describedby={nameError ? "err-cert-name" : undefined}
               className={`w-full bg-black border rounded px-3.5 py-2.5 text-xs font-sans text-white focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635] focus:border-[#00f0ff] focus:ring-1 focus:ring-[#00f0ff]/30 transition-all duration-300 uppercase tracking-wider ${

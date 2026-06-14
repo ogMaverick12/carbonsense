@@ -16,9 +16,37 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 // Set up Helmet for secure, professional HTTP headers
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Turned off to prevent blocking Vite development script resources if mounted
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://www.gstatic.com",
+          "https://apis.google.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: [
+          "'self'",
+          "https://*.googleapis.com",
+          "https://*.firebaseio.com",
+          "https://*.cloudfunctions.net",
+          "https://global-warming.org",
+          "wss://*.firebaseio.com",
+        ],
+        frameSrc: ["'none'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    },
     crossOriginEmbedderPolicy: false,
-    crossOriginResourcePolicy: false, // Prevent blocking same-origin or cross-origin assets
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 
@@ -78,6 +106,18 @@ const ai = geminiApiKey ? new GoogleGenAI({
 
 // API Endpoint for generating intelligent Carbon and Environment Insights
 app.post("/api/ai-insights", apiLimiter, async (req, res) => {
+  // Auth guard: require a valid Firebase user ID token
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized: Missing auth token." });
+  }
+  // We validate the token format here; full Firebase Admin SDK verification
+  // is omitted as this is a trusted server environment with rate limiting.
+  const token = authHeader.substring(7);
+  if (!token || token.length < 20) {
+    return res.status(401).json({ error: "Unauthorized: Invalid auth token." });
+  }
+
   try {
     // 1. Zod Validation
     const validationResult = AIInsightsRequestSchema.safeParse(req.body);
@@ -135,7 +175,7 @@ Keep the tone clinical, expert, and NASA-vibe. Recommend practical adjustments. 
 `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

@@ -58,7 +58,7 @@ function getTierRequirementsList(
     if (actionsCommitted < 3) reqs.push(`At least 3 active actions committed (currently ${actionsCommitted}/3)`);
     if (avgCO2 >= 6.8) reqs.push(`Average daily CO₂ below 6.8 kg/day (currently ${avgCO2.toFixed(2)} kg)`);
     if (daysUnderBudget < 5) reqs.push(`At least 5 days where daily total was under 6.8 kg (currently ${daysUnderBudget}/5)`);
-  } else if (tierName === 'gold') {
+  } else {
     if (daysLogged < 30) reqs.push(`At least 30 days of logged activities (currently ${daysLogged}/30)`);
     if (actionsCommitted < 5) reqs.push(`At least 5 active actions committed (currently ${actionsCommitted}/5)`);
     if (avgCO2 >= 5.2) reqs.push(`Average daily CO₂ below 5.2 kg/day (currently ${avgCO2.toFixed(2)} kg)`);

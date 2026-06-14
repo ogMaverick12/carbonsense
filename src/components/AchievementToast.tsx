@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Award, CheckCircle2, ChevronRight, X, Sparkles, AlertCircle } from "lucide-react";
+import { getAudioContextClass } from "../lib/audio";
 
 export interface Achievement {
   id: string;
@@ -21,7 +22,7 @@ export function AchievementToast({ achievement, onClose }: AchievementToastProps
   useEffect(() => {
     if (achievement) {
       try {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass = getAudioContextClass();
         if (AudioContextClass) {
           const ctx = new AudioContextClass();
           
@@ -84,7 +85,9 @@ export function AchievementToast({ achievement, onClose }: AchievementToastProps
           noise.start();
           noise.stop(ctx.currentTime + 1.6);
         }
-      } catch (_) {}
+      } catch (_) {
+        // intentional: audio/storage failures are non-fatal; swallowing here is correct
+      }
     }
   }, [achievement]);
 

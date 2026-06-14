@@ -128,6 +128,7 @@ export function OnboardingModal({ isOpen, suggestedName, onConfirm, onSkip }: On
                   setCallsign(e.target.value);
                   setError("");
                 }}
+                aria-label="Your name or pilot callsign"
                 onKeyDown={handleKeyDown}
                 maxLength={32}
                 placeholder="e.g. MAVERICK-12"
@@ -162,6 +163,7 @@ export function OnboardingModal({ isOpen, suggestedName, onConfirm, onSkip }: On
             <div className="flex flex-col gap-2">
               <button
                 onClick={handleConfirm}
+                aria-label="Confirm callsign and launch"
                 className="w-full py-3 bg-white text-black hover:bg-[#00f0ff] font-mono text-[10px] tracking-widest font-extrabold uppercase transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00f0ff]"
               >
                 <Check size={12} />
@@ -170,6 +172,7 @@ export function OnboardingModal({ isOpen, suggestedName, onConfirm, onSkip }: On
 
               <button
                 onClick={onSkip}
+                aria-label="Skip onboarding and use Google name"
                 className="w-full py-2.5 bg-transparent text-zinc-500 hover:text-zinc-300 font-mono text-[9px] tracking-widest uppercase transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 focus:outline-none"
               >
                 <SkipForward size={10} />

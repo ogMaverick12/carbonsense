@@ -5,6 +5,7 @@ import { Globe, AlertTriangle, Eye, ShieldAlert, Crosshair, HelpCircle, Flame, A
 import gsap from "gsap";
 import healthyEarth from "../assets/images/healthy_earth_1781010556530.png";
 import pollutedEarth from "../assets/images/polluted_earth_1781010577732.png";
+import { getAudioContextClass } from "../lib/audio";
 
 interface EarthVisualizerProps {
   carbonReduction: number;
@@ -36,7 +37,7 @@ export const EarthVisualizer = memo(function EarthVisualizer({ carbonReduction, 
   // High-frequency programmatic NASA data-ping sound
   const playDataPing = useCallback(() => {
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (!AudioContextClass) return;
       const ctx = new AudioContextClass();
       const osc = ctx.createOscillator();
@@ -54,7 +55,9 @@ export const EarthVisualizer = memo(function EarthVisualizer({ carbonReduction, 
       
       osc.start();
       osc.stop(ctx.currentTime + 0.16);
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
   }, []);
 
   // Breathing pulse rates linked to current CO2 reduction levels (higher reduction = slower pulse)

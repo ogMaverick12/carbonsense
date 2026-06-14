@@ -91,7 +91,7 @@ describe("CARBON ENGINE COMPREHENSIVE TESTS", () => {
   });
 
   test("Test with unknown categories or subcategories", () => {
-    expect(calculateCO2("invalid" as any, "something", 10)).toBe(0);
+    expect(calculateCO2("invalid" as unknown as Parameters<typeof calculateCO2>[0], "something", 10)).toBe(0);
     expect(calculateCO2("transport", "invalid_vehicle", 10)).toBe(0);
   });
 
@@ -442,6 +442,66 @@ describe("ACHIEVEMENT ENGINE COMPREHENSIVE TESTS", () => {
     expect(r.updatedChallenges[0].completed).toBe(true);
     expect(r.newBadgeToUnlock).toBeNull();
   });
+
+  test("Does not add duplicate badge when badge is already unlocked", () => {
+    // This test covers the branch: matchedPreset && !unlockedBadgeIds.includes(matchedPreset.id)
+    // Specifically the FALSE path: badge IS already in unlockedBadgeIds.
+    const ch_metro: Challenge = {
+      id: "ch_metro",
+      title: "Metro Transition Protocol",
+      description: "",
+      category: "transport",
+      targetValue: 100,
+      rewardBadge: "GRID RUNNER",
+      requiredUnit: "km",
+      active: true,
+      progress: 90,
+      completed: false
+    };
+
+    const alreadyUnlockedBadgeIds = PRESETS_BADGES
+      .filter((badge) => badge.id === "metro_transit")
+      .map((badge) => badge.id);
+    expect(alreadyUnlockedBadgeIds).toEqual(["metro_transit"]);
+
+    const result = checkChallengeUnlock(
+      [ch_metro],
+      "transport",
+      "trainMetro",
+      10,
+      alreadyUnlockedBadgeIds
+    );
+
+    expect(result.updatedChallenges[0].completed).toBe(true);
+    expect(result.newBadgeToUnlock).toBeNull();
+  });
+
+  test("Does not unlock a badge when a matching challenge is still incomplete", () => {
+    const ch_metro: Challenge = {
+      id: "ch_metro",
+      title: "Metro Transition Protocol",
+      description: "",
+      category: "transport",
+      targetValue: 100,
+      rewardBadge: "GRID RUNNER",
+      requiredUnit: "km",
+      active: true,
+      progress: 20,
+      completed: false
+    };
+
+    const result = checkChallengeUnlock(
+      [ch_metro],
+      "transport",
+      "trainMetro",
+      10,
+      []
+    );
+
+    expect(result.updatedChallenges[0].completed).toBe(false);
+    expect(result.updatedChallenges[0].progress).toBe(30);
+    expect(result.newBadgeToUnlock).toBeNull();
+  });
 });
 
 describe("CERTIFICATE ENGINE COMPREHENSIVE TESTS", () => {
@@ -544,12 +604,13 @@ describe("CERTIFICATE ENGINE COMPREHENSIVE TESTS", () => {
     const originalWindow = global.window;
     
     // Ensure mock window with origin
-    global.window = { location: { origin: "https://custom-test-registry.co" } } as any;
+    global.window = { location: { origin: "https://custom-test-registry.co" } } as unknown as Window & typeof globalThis;
     const linkWithWindow = getVerificationUrl("TEST-ID-123");
     expect(linkWithWindow).toBe("https://custom-test-registry.co/certificate/TEST-ID-123");
 
     // Branch 2: Window undefined
-    // @ts-ignore
+     
+    // @ts-expect-error -- intentionally deleting global.window to test fallback URL generation
     delete global.window;
     const linkWithoutWindow = getVerificationUrl("TEST-ID-123");
     expect(linkWithoutWindow).toBe("https://carbonsense.io/certificate/TEST-ID-123");
@@ -731,6 +792,45 @@ describe("CERTIFICATE ENGINE COMPREHENSIVE TESTS", () => {
     expect(result.tier).toBe("gold");
     expect(result.nextTierName).toBeNull();
     expect(result.nextTierRequirements).toEqual([]);
+  });
+
+  test("Returns correct requirement messages for silver tier", () => {
+    const result = checkCertificateEligibility({
+      totalDaysLogged: 7,
+      committedActionsCount: 1,
+      dailyCO2History: [{ date: "2026-06-01", totalKg: 7.0 }]
+    });
+    const requirements = result.nextTierRequirements;
+
+    expect(result.tier).toBe("bronze");
+    expect(requirements.some(r => r.includes("21 days"))).toBe(true);
+    expect(requirements.some(r => r.includes("3 active actions"))).toBe(true);
+    expect(requirements.some(r => r.includes("6.8 kg"))).toBe(true);
+    expect(requirements.some(r => r.includes("5 days"))).toBe(true);
+  });
+
+  test("Returns correct requirement messages for gold tier", () => {
+    const result = checkCertificateEligibility({
+      totalDaysLogged: 21,
+      committedActionsCount: 3,
+      dailyCO2History: [
+        ...Array.from({ length: 5 }).map((_, i) => ({
+          date: `2026-06-${(i + 1).toString().padStart(2, '0')}`,
+          totalKg: 5.0
+        })),
+        ...Array.from({ length: 16 }).map((_, i) => ({
+          date: `2026-06-${(i + 6).toString().padStart(2, '0')}`,
+          totalKg: 7.0
+        }))
+      ]
+    });
+    const requirements = result.nextTierRequirements;
+
+    expect(result.tier).toBe("silver");
+    expect(requirements.some(r => r.includes("30 days"))).toBe(true);
+    expect(requirements.some(r => r.includes("5 active actions"))).toBe(true);
+    expect(requirements.some(r => r.includes("5.2 kg"))).toBe(true);
+    expect(requirements.some(r => r.includes("10 days"))).toBe(true);
   });
 
   // --- END NEW GET_TIER_REQUIREMENTS_LIST BRANCH COVERAGE TESTS ---

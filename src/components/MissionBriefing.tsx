@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ShieldAlert, Terminal, Play, CircleAlert, Globe, Server, Check } from "lucide-react";
 import { TypewriterText } from "./TypewriterText";
+import { getAudioContextClass } from "../lib/audio";
 
 interface MissionBriefingProps {
   onDismiss: () => void;
@@ -31,7 +32,7 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
         
         // Play programatic keystroke frequency synthesizer beep sound for each step!
         try {
-          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+          const AudioContextClass = getAudioContextClass();
           if (AudioContextClass) {
             const ctx = new AudioContextClass();
             const osc = ctx.createOscillator();
@@ -47,7 +48,9 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
             osc.start();
             osc.stop(ctx.currentTime + 0.06);
           }
-        } catch (_) {}
+        } catch (_) {
+          // intentional: audio/storage failures are non-fatal; swallowing here is correct
+        }
 
         setBootStep((s) => s + 1);
       }, delay);
@@ -57,7 +60,7 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
         setFullyLoaded(true);
         // Play success tone
         try {
-          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+          const AudioContextClass = getAudioContextClass();
           if (AudioContextClass) {
             const ctx = new AudioContextClass();
             const osc = ctx.createOscillator();
@@ -74,7 +77,9 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
             osc.start();
             osc.stop(ctx.currentTime + 0.3);
           }
-        } catch (_) {}
+        } catch (_) {
+          // intentional: audio/storage failures are non-fatal; swallowing here is correct
+        }
       }, 700);
       return () => clearTimeout(t);
     }
@@ -83,7 +88,7 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
   const handleDismissAndSound = () => {
     // Play terminal confirm chime
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = getAudioContextClass();
       if (AudioContextClass) {
         const ctx = new AudioContextClass();
         const osc = ctx.createOscillator();
@@ -99,7 +104,9 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
         osc.start();
         osc.stop(ctx.currentTime + 0.32);
       }
-    } catch (_) {}
+    } catch (_) {
+      // intentional: audio/storage failures are non-fatal; swallowing here is correct
+    }
     onDismiss();
   };
 
@@ -222,6 +229,7 @@ export function MissionBriefing({ onDismiss }: MissionBriefingProps) {
                 <button
                   id="briefing-terminal-dismiss-btn"
                   onClick={handleDismissAndSound}
+                  aria-label="Dismiss mission briefing"
                   className="py-3 px-6 rounded-none font-mono text-[10px] tracking-[0.3em] font-bold uppercase transition-all duration-300 cursor-pointer text-center relative overflow-hidden bg-white text-black hover:bg-[#39ff14] hover:text-black hover:shadow-[0_0_20px_rgba(57,255,20,0.4)] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#a3e635]"
                   style={{ textTransform: 'uppercase' }}
                 >
